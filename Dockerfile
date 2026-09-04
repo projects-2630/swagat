@@ -9,8 +9,9 @@ COPY go.mod go.sum* ./
 RUN go mod download 2>/dev/null || true
 
 COPY . .
-RUN go mod edit -replace github.com/rogpeppe/go-internal=github.com/rogpeppe/go-internal@v1.13.1 && go mod tidyRUN CGO_ENABLED=0 GOOS=linux go build -o /swagat-server ./cmd/server
-
+RUN go mod edit -replace github.com/rogpeppe/go-internal=github.com/rogpeppe/go-internal@v1.13.1
+RUN go mod tidy
+RUN CGO_ENABLED=0 GOOS=linux go build -o /swagat-server ./cmd/server
 # --- runtime stage ---
 FROM alpine:3.19
 
